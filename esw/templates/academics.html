@@ -1,0 +1,859 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elvandia School | Academics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 🌿 ENHANCED COLOR SYSTEM & VARIABLES */
+    :root {
+      --primary-green: #0b7d3c;
+      --dark-green: #06592c;
+      --light-green: #e8f5ee;
+      --accent-gold: #d4af37;
+      --light-gold: #f8f3e6;
+      --pure-white: #ffffff;
+      --dark-text: #1a1a1a;
+      --light-gray: #f5f5f5;
+      --medium-gray: #e0e0e0;
+      --dark-gray: #333333;
+      --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+      --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e6c158 100%);
+      --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-large: 0 20px 60px rgba(11, 125, 60, 0.15);
+      --border-radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+
+    /* 🌿 GLOBAL STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--light-green) 0%, var(--pure-white) 100%);
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* 🌿 ENHANCED NAVBAR */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 5%;
+      background: var(--pure-white);
+      box-shadow: var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: var(--transition);
+    }
+
+    nav .logo:hover {
+      transform: translateY(-2px);
+    }
+
+    nav .logo img {
+      height: 70px;
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    nav .logo h2 {
+      font-size: 1.4rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--dark-gray);
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: var(--transition);
+    }
+
+    nav ul li a:hover {
+      color: var(--primary-green);
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    nav .cta {
+      background: var(--gradient-primary);
+      color: var(--pure-white);
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      box-shadow: var(--shadow-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s ease;
+    }
+
+    nav .cta:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    nav .cta:hover::before {
+      left: 100%;
+    }
+
+    /* Mobile Menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .menu-toggle:hover {
+      background: var(--light-green);
+    }
+
+    .menu-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--dark-green);
+      border-radius: 3px;
+      transition: var(--transition);
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: absolute;
+        top: 100%;
+        right: 5%;
+        background: var(--pure-white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-medium);
+        padding: 2rem;
+        width: 280px;
+        transform: translateY(10px);
+        opacity: 0;
+        animation: fadeInDown 0.4s ease forwards;
+      }
+
+      @keyframes fadeInDown {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* 🌿 ENHANCED MAIN CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      background: var(--pure-white);
+      border-radius: var(--border-radius);
+      padding: 4rem;
+      box-shadow: var(--shadow-large);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Enhanced decorative background shapes */
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+      opacity: 0.6;
+      z-index: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--light-green) 0%, transparent 70%);
+      opacity: 0.5;
+      z-index: 0;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header img {
+      height: 140px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.1));
+      transition: var(--transition);
+    }
+
+    header img:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    h1 {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: var(--gradient-gold);
+      border-radius: 2px;
+    }
+
+    p.subtitle {
+      color: var(--dark-gray);
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    /* 🎓 ENHANCED GRADE SECTIONS */
+    .grades {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grade {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      border: 2px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      padding: 3rem;
+      background: var(--pure-white);
+      transition: var(--transition);
+      overflow: hidden;
+      position: relative;
+      animation: fadeInUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    .grade:nth-child(1) { animation-delay: 0.1s; }
+    .grade:nth-child(2) { animation-delay: 0.2s; }
+    .grade:nth-child(3) { animation-delay: 0.3s; }
+    .grade:nth-child(4) { animation-delay: 0.4s; }
+    .grade:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .grade:nth-child(even) {
+      flex-direction: row-reverse;
+      background: var(--light-gray);
+    }
+
+    .grade::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 0;
+    }
+
+    .grade img {
+      width: 45%;
+      border-radius: 12px;
+      object-fit: cover;
+      max-height: 350px;
+      box-shadow: var(--shadow-medium);
+      transition: var(--transition);
+      position: relative;
+      z-index: 1;
+    }
+
+    .grade-content {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grade h2 {
+      color: var(--primary-green);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: var(--transition);
+    }
+
+    .grade h2 i {
+      color: var(--accent-gold);
+      font-size: 1.8rem;
+    }
+
+    .grade p {
+      color: var(--dark-gray);
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .grade-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .feature-tag {
+      background: var(--light-green);
+      color: var(--primary-green);
+      padding: 0.6rem 1.2rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+
+    .grade:hover {
+      border-color: transparent;
+      box-shadow: var(--shadow-large);
+      transform: translateY(-10px);
+    }
+
+    .grade:hover::before {
+      opacity: 0.02;
+    }
+
+    .grade:hover img {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-large);
+    }
+
+    .grade:hover h2 {
+      transform: translateX(10px);
+    }
+
+    .grade:hover .feature-tag {
+      background: var(--gradient-gold);
+      color: var(--dark-text);
+      transform: translateY(-3px);
+    }
+
+    /* 📱 RESPONSIVE GRADES */
+    @media (max-width: 968px) {
+      .grade {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        padding: 2.5rem;
+      }
+      .grade:nth-child(even) {
+        flex-direction: column;
+      }
+      .grade img {
+        width: 100%;
+        max-height: 300px;
+      }
+    }
+
+    /* 🌿 ENHANCED CTA SECTION */
+    .cta-section {
+      text-align: center;
+      margin: 4rem 0 2rem;
+      padding: 4rem 3rem;
+      background: var(--gradient-primary);
+      color: var(--pure-white);
+      border-radius: var(--border-radius);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .cta-section h3 {
+      color: var(--pure-white);
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section p {
+      color: var(--light-gold);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--pure-white);
+      color: var(--primary-green);
+      padding: 1.2rem 3rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-medium);
+      margin-top: 2rem;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(11, 125, 60, 0.1), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .cta-button:hover {
+      background: var(--light-gold);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow-large);
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    /* 🌿 ENHANCED FOOTER */
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 2px solid var(--medium-gray);
+      font-size: 1rem;
+      color: var(--dark-gray);
+      position: relative;
+      z-index: 1;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 2px;
+      background: var(--gradient-gold);
+    }
+
+    footer a {
+      color: var(--primary-green);
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    footer a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: var(--transition);
+    }
+
+    footer a:hover {
+      color: var(--accent-gold);
+    }
+
+    footer a:hover::after {
+      width: 100%;
+    }
+
+    /* 📱 RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .container {
+        padding: 2.5rem 2rem;
+        margin: 1.5rem;
+      }
+
+      header img {
+        height: 100px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .cta-section {
+        padding: 3rem 2rem;
+      }
+
+      .cta-section h3 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .grade h2 {
+        font-size: 1.6rem;
+      }
+
+      .grade {
+        padding: 2rem;
+      }
+
+      .container {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌿 ENHANCED NAVBAR -->
+  <nav>
+    <div class="logo">
+      <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo" />
+      <h2>Elvandia School</h2>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul id="menu">
+      <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="{% url 'about_us' %}"><i class="fas fa-info-circle"></i> About Us</a></li>
+      <li><a href="{% url 'academics' %}"><i class="fas fa-graduation-cap"></i> Academics</a></li>
+      <li><a href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+
+    <a href="{% url 'admission_form_view' %}" class="cta"><i class="fas fa-pencil-alt"></i> Apply Now</a>
+  </nav>
+
+  <!-- 🌿 MAIN CONTENT -->
+  <div class="container">
+    <header>
+      <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo" />
+      <h1>Academic Programs</h1>
+      <p class="subtitle">
+        Nurturing young minds from Baby to KG 2 with love, learning, and creativity. Our innovative approach prepares children for lifelong success through engaging, developmentally-appropriate experiences.
+      </p>
+    </header>
+
+    <!-- 🎓 ENHANCED GRADE SECTIONS -->
+    <section class="grades">
+      <div class="grade">
+        <img src="{% static 'img/nursery.jpg' %}" alt="Baby Class" />
+        <div class="grade-content">
+          <h2><i class="fas fa-baby"></i> Baby Class</h2>
+          <p>
+            Our Baby Class welcomes the youngest learners into a safe, nurturing environment where curiosity begins to bloom.
+            Through songs, play, and storytelling, we help children build social confidence and basic communication skills
+            while fostering a love for learning from the very beginning.
+          </p>
+          <div class="grade-features">
+            <span class="feature-tag">Sensory Play</span>
+            <span class="feature-tag">Social Development</span>
+            <span class="feature-tag">Early Communication</span>
+            <span class="feature-tag">Motor Skills</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grade">
+        <img src="{% static 'img/kindergaten.png' %}" alt="Nursery 1" />
+        <div class="grade-content">
+          <h2><i class="fas fa-shapes"></i> Nursery 1</h2>
+          <p>
+            Nursery 1 introduces foundational learning through fun — counting, letter sounds, art, and rhythm.
+            Children develop fine motor skills and learn to explore and express ideas creatively in a supportive
+            environment that celebrates each child's unique learning journey.
+          </p>
+          <div class="grade-features">
+            <span class="feature-tag">Foundational Learning</span>
+            <span class="feature-tag">Fine Motor Skills</span>
+            <span class="feature-tag">Creative Expression</span>
+            <span class="feature-tag">Language Development</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grade">
+        <img src="{% static 'img/kg2.jpg' %}" alt="Nursery 2" />
+        <div class="grade-content">
+          <h2><i class="fas fa-puzzle-piece"></i> Nursery 2</h2>
+          <p>
+            Nursery 2 focuses on pre-reading and problem-solving. Storytime, crafts, and numeracy games build 
+            confidence and curiosity in every child, preparing them for the more structured learning environment
+            of kindergarten while maintaining the joy of discovery.
+          </p>
+          <div class="grade-features">
+            <span class="feature-tag">Language Development</span>
+            <span class="feature-tag">Problem-Solving</span>
+            <span class="feature-tag">Teamwork Skills</span>
+            <span class="feature-tag">Critical Thinking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grade">
+        <img src="{% static 'img/otherkids.jpeg' %}" alt="KG 1" />
+        <div class="grade-content">
+          <h2><i class="fas fa-book-reader"></i> Kindergarten 1 (KG 1)</h2>
+          <p>
+            KG 1 blends learning and play seamlessly. Children begin writing simple sentences, reading sight words, 
+            and conducting small science explorations that spark their natural curiosity about the world around them
+            while building essential academic foundations.
+          </p>
+          <div class="grade-features">
+            <span class="feature-tag">Structured Play</span>
+            <span class="feature-tag">Early Literacy</span>
+            <span class="feature-tag">Science Exploration</span>
+            <span class="feature-tag">Math Foundations</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grade">
+        <img src="{% static 'img/kidws.jpeg' %}" alt="KG 2" />
+        <div class="grade-content">
+          <h2><i class="fas fa-graduation-cap"></i> Kindergarten 2 (KG 2)</h2>
+          <p>
+            KG 2 prepares learners for primary education with balanced academics and creativity — reading fluency, 
+            arithmetic, and real-world projects that connect classroom learning to everyday life, ensuring a smooth
+            transition to the next phase of their educational journey.
+          </p>
+          <div class="grade-features">
+            <span class="feature-tag">Primary Preparation</span>
+            <span class="feature-tag">Reading Fluency</span>
+            <span class="feature-tag">Real-World Projects</span>
+            <span class="feature-tag">Advanced Math</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🌿 ENHANCED CTA SECTION -->
+    <div class="cta-section">
+      <h3>Ready to Begin Your Child's Educational Journey?</h3>
+      <p>Join the Elvandia School family and give your child the foundation for lifelong success and happiness.</p>
+      <a href="{% url 'admission_form_view' %}" class="cta-button">
+        <i class="fas fa-user-graduate"></i>
+        Apply Now
+      </a>
+    </div>
+
+    <!-- 🌿 ENHANCED FOOTER -->
+    <footer>
+      <p>© 2025 <a href="#">Elvandia School</a> | Little Minds, Great Future</p>
+    </footer>
+  </div>
+
+  <script>
+    // Enhanced Mobile Menu Toggle
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      toggle.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove('active');
+        toggle.classList.remove('active');
+      }
+    });
+
+    // Scroll animations for grade sections
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all grade sections for animation
+    document.querySelectorAll('.grade').forEach((el) => {
+      observer.observe(el);
+    });
+
+    // Add hover sound effect simulation
+    document.querySelectorAll('.grade, .cta-button, nav .cta').forEach((element) => {
+      element.addEventListener('mouseenter', function() {
+        this.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      });
+      
+      element.addEventListener('mouseleave', function() {
+        this.style.transition = 'var(--transition)';
+      });
+    });
+  </script>
+</body>
+</html>

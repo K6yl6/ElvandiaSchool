@@ -1,0 +1,669 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elvandia School | Contact Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-green: #0b7d3c;
+      --dark-green: #06592c;
+      --light-green: #e8f5ee;
+      --accent-gold: #d4af37;
+      --light-gold: #f8f3e6;
+      --pure-white: #ffffff;
+      --dark-text: #1a1a1a;
+      --light-gray: #f5f5f5;
+      --medium-gray: #e0e0e0;
+      --dark-gray: #333333;
+      --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+      --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e6c158 100%);
+      --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-large: 0 20px 60px rgba(11, 125, 60, 0.15);
+      --border-radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, var(--light-green) 0%, var(--pure-white) 100%);
+      color: var(--dark-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 4%;
+      background: var(--pure-white);
+      box-shadow: var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: var(--transition);
+    }
+
+    nav .logo:hover {
+      transform: translateY(-2px);
+    }
+
+    nav .logo img {
+      height: clamp(60px, 8vw, 100px);
+      width: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+
+    nav .logo h2 {
+      font-size: 1.4rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: var(--dark-green);
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 0.5rem 0;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: var(--transition);
+    }
+
+    nav ul li a:hover {
+      color: var(--accent-gold);
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .cta {
+      background: var(--gradient-primary);
+      color: var(--pure-white);
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      box-shadow: var(--shadow-light);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .cta:hover::before {
+      left: 100%;
+    }
+
+    /* ---------- MOBILE MENU ---------- */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .menu-toggle:hover {
+      background: var(--light-green);
+    }
+
+    .menu-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--dark-green);
+      border-radius: 3px;
+      transition: var(--transition);
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    @media (max-width: 900px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: absolute;
+        top: 100%;
+        right: 4%;
+        background: var(--pure-white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-medium);
+        padding: 2rem;
+        width: 280px;
+        transform: translateY(10px);
+        opacity: 0;
+        animation: fadeInDown 0.4s ease forwards;
+      }
+
+      @keyframes fadeInDown {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .cta {
+        display: none;
+      }
+    }
+
+    /* ---------- CONTAINER ---------- */
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      background: var(--pure-white);
+      border-radius: var(--border-radius);
+      padding: 4rem;
+      box-shadow: var(--shadow-large);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+      opacity: 0.6;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--light-green) 0%, transparent 70%);
+      opacity: 0.6;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header img {
+      height: 120px;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.1));
+      transition: var(--transition);
+    }
+
+    header img:hover {
+      transform: scale(1.05) rotate(5deg);
+    }
+
+    h1 {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-gold);
+      border-radius: 2px;
+    }
+
+    p.subtitle {
+      color: var(--dark-gray);
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 1.5rem auto 0;
+      line-height: 1.8;
+    }
+
+    /* ---------- CONTACT CARDS ---------- */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin-top: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-card {
+      background: var(--pure-white);
+      border: 1px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      padding: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-light);
+    }
+
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-primary);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: -1;
+    }
+
+    .contact-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gradient-gold);
+      transform: scaleY(0);
+      transition: transform 0.5s ease;
+    }
+
+    .contact-card:hover {
+      border-color: transparent;
+      box-shadow: var(--shadow-medium);
+      transform: translateY(-10px) scale(1.02);
+    }
+
+    .contact-card:hover::before {
+      opacity: 0.03;
+    }
+
+    .contact-card:hover::after {
+      transform: scaleY(1);
+    }
+
+    .contact-card h3 {
+      color: var(--primary-green);
+      font-size: 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .contact-card:hover h3 {
+      color: var(--dark-green);
+      transform: translateX(5px);
+    }
+
+    .contact-card p {
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-card:hover p {
+      color: var(--dark-text);
+    }
+
+    /* ---------- EMAIL BUTTON ---------- */
+    .email-section {
+      margin-top: 4rem;
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .email-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--light-green);
+    }
+
+    .email-header h3 {
+      color: var(--primary-green);
+      font-size: 1.8rem;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .email-header h3::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--gradient-gold);
+      border-radius: 2px;
+    }
+
+    .email-header p {
+      color: var(--dark-gray);
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .email-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--gradient-primary);
+      color: var(--pure-white);
+      padding: 1.5rem 3rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-medium);
+      position: relative;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .email-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .email-button:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: var(--shadow-large);
+    }
+
+    .email-button:hover::before {
+      left: 100%;
+    }
+
+    .email-note {
+      color: var(--dark-gray);
+      font-size: 1rem;
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--medium-gray);
+      font-size: 1rem;
+      color: var(--dark-gray);
+      position: relative;
+      z-index: 1;
+    }
+
+    footer a {
+      color: var(--primary-green);
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    footer a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gold);
+      transition: var(--transition);
+    }
+
+    footer a:hover {
+      color: var(--accent-gold);
+    }
+
+    footer a:hover::after {
+      width: 100%;
+    }
+
+    /* ---------- ANIMATIONS ---------- */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contact-card, .email-section {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .contact-card:nth-child(1) { animation-delay: 0.1s; }
+    .contact-card:nth-child(2) { animation-delay: 0.2s; }
+    .email-section { animation-delay: 0.3s; }
+
+    /* ---------- RESPONSIVE DESIGN ---------- */
+    @media (max-width: 768px) {
+      .container {
+        margin: 1.5rem;
+        padding: 2.5rem 2rem;
+      }
+      
+      h1 {
+        font-size: 2.2rem;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .email-button {
+        padding: 1.2rem 2rem;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">
+      <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo" />
+      <h2>Elvandia School</h2>
+    </div>
+
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <ul id="menu">
+      <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="{% url 'about_us' %}"><i class="fas fa-info-circle"></i> About Us</a></li>
+      <li><a href="{% url 'academics' %}"><i class="fas fa-graduation-cap"></i> Academics</a></li>
+      <li><a href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact</a></li>
+    </ul>
+
+    <a href="{% url 'admission_form_view' %}" class="cta"><i class="fas fa-pencil-alt"></i> Apply Now</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <header>
+      <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo" />
+      <h1>Contact Elvandia School</h1>
+      <p class="subtitle">We're here to answer your questions and help you discover the Elvandia difference. Reach out to us today and let's start a conversation about your child's future.</p>
+    </header>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3><i class="fas fa-map-marker-alt"></i> School Address</h3>
+        <p><i class="fas fa-school"></i> Elvandia School Campus</p>
+        <p><i class="fas fa-location-dot"></i> Atasemanso Beposo</p>
+        <p><i class="fas fa-city"></i> Kumasi, Ghana</p>
+      </div>
+
+      <div class="contact-card">
+        <h3><i class="fas fa-envelope-open-text"></i> Get in Touch</h3>
+        <p><i class="fas fa-envelope"></i> elvandiaschool2024@gmail.com</p>
+        <p><i class="fas fa-phone"></i> +233 24 322 1794</p>
+        <p><i class="fas fa-user-graduate"></i> elvandiaschool2024@gmail.com</p>
+      </div>
+    </div>
+
+    <!-- SIMPLE EMAIL BUTTON SECTION -->
+    <div class="email-section">
+      <div class="email-header">
+        <h3>Send Us a Message</h3>
+        <p><i class="fas fa-clock"></i> We typically respond within 24 hours</p>
+      </div>
+
+      <a href="mailto:elvandiaschool2024@gmail.com?subject=Inquiry from Elvandia School Website&body=Dear Elvandia School,%0D%0A%0D%0AI would like to inquire about:" class="email-button">
+        <i class="fas fa-envelope"></i>
+        Send Email
+      </a>
+      <p class="email-note">Click to open your email app and send us a message directly</p>
+    </div>
+
+    <footer>
+      <p>© 2025 Elvandia School | Little Minds, Great Future</p>
+    </footer>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      toggle.classList.toggle('active');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+        menu.classList.remove('active');
+        toggle.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

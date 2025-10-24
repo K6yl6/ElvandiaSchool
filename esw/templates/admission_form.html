@@ -1,0 +1,839 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elvandia School | Admission Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /*  ENHANCED THEME COLORS */
+        :root {
+            --primary-green: #0b7d3c;
+            --dark-green: #06592c;
+            --light-green: #e8f5ee;
+            --accent-gold: #d4af37;
+            --light-gold: #f8f3e6;
+            --pure-white: #ffffff;
+            --dark-text: #1a1a1a;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #333333;
+            --error-red: #dc2626;
+            --success-green: #059669;
+            --gradient-primary: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--accent-gold) 0%, #e6c158 100%);
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        /* 🌿 ENHANCED NAVBAR - FULL WIDTH */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            background: var(--pure-white);
+            box-shadow: var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            margin: 0;
+            left: 0;
+            right: 0;
+        }
+
+        nav .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: var(--transition);
+        }
+
+        nav .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        nav .logo img {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        nav .logo h2 {
+            font-size: 1.4rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            position: relative;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-green);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background: var(--light-green);
+        }
+
+        .menu-toggle span {
+            width: 28px;
+            height: 3px;
+            background: var(--dark-green);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        @media (max-width: 900px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                gap: 1.5rem;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: var(--pure-white);
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+                box-shadow: var(--shadow-medium);
+                padding: 2rem;
+                width: 280px;
+                transform: translateY(10px);
+                opacity: 0;
+                animation: fadeInDown 0.4s ease forwards;
+            }
+
+            @keyframes fadeInDown {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        /*  RESET & BASE STYLES */
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--light-green) 0%, var(--pure-white) 100%);
+            margin: 0;
+            padding: 0;
+            color: var(--dark-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /*  MAIN CONTAINER */
+        .wrap {
+            max-width: 1000px;
+            margin: 2rem auto;
+            background: var(--pure-white);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(11, 125, 60, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background accent elements */
+        .wrap::before {
+            content: "";
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--light-gold) 0%, transparent 70%);
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .wrap::after {
+            content: "";
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--light-green) 0%, transparent 70%);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /*  HEADER */
+        .form-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-header img {
+            height: 80px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        p.note {
+            color: var(--dark-gray);
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /*  PROGRESS INDICATOR */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--medium-gray);
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+            background: var(--primary-green);
+            color: var(--pure-white);
+            box-shadow: 0 4px 12px rgba(11, 125, 60, 0.3);
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--dark-gray);
+            text-align: center;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--medium-gray);
+            width: 100%;
+            z-index: -1;
+        }
+
+        /*  FIELDSETS */
+        fieldset {
+            border: 1px solid var(--medium-gray);
+            border-radius: 16px;
+            background: var(--pure-white);
+            margin-bottom: 2rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        fieldset::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-gold);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        fieldset:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 10px 30px rgba(11, 125, 60, 0.1);
+        }
+
+        fieldset:hover::before {
+            transform: scaleY(1);
+        }
+
+        legend {
+            font-weight: 600;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+            padding: 0 1rem;
+            background: var(--pure-white);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /*  FORM INPUTS */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            font-size: 1rem;
+            border: 1px solid var(--medium-gray);
+            border-radius: 10px;
+            background: var(--pure-white);
+            transition: all 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(11, 125, 60, 0.15);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-help {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            margin-top: 0.3rem;
+        }
+
+        /*  ERROR STYLING */
+        .errors {
+            color: var(--error-red);
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .error-field {
+            border-color: var(--error-red) !important;
+        }
+
+        .error-field:focus {
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+        }
+
+        /*  MESSAGES */
+        ul.messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        ul.messages li {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        li.success { 
+            background: #d1fae5; 
+            color: var(--success-green); 
+            border-left: 4px solid var(--success-green);
+        }
+
+        li.error { 
+            background: #fee2e2; 
+            color: var(--error-red);
+            border-left: 4px solid var(--error-red);
+        }
+
+        li.info { 
+            background: #dbeafe; 
+            color: #1d4ed8;
+            border-left: 4px solid #1d4ed8;
+        }
+
+        /*  BUTTONS */
+        .btns {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn {
+            background: var(--primary-green);
+            color: var(--pure-white);
+            padding: 0.9rem 2rem;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(11, 125, 60, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--dark-green);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(11, 125, 60, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn.secondary {
+            background: var(--medium-gray);
+            color: var(--dark-text);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn.secondary:hover {
+            background: #c2c2c2;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .pdf-link {
+            border: 1px solid var(--primary-green);
+            color: var(--primary-green);
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            text-decoration: none;
+            background: var(--light-green);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pdf-link:hover {
+            background: var(--primary-green);
+            color: var(--pure-white);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(11, 125, 60, 0.3);
+        }
+
+        /*  RESPONSIVE */
+        @media (max-width: 968px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .progress-step {
+                flex: 0 0 calc(33.333% - 1rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { 
+                padding: 0;
+            }
+            
+            .wrap { 
+                margin: 1rem;
+                padding: 2rem 1.5rem; 
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            fieldset {
+                padding: 1.5rem;
+            }
+            
+            .btns {
+                flex-direction: column;
+            }
+            
+            .btn, .pdf-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wrap { 
+                margin: 0.5rem;
+                padding: 1.5rem; 
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .progress-step {
+                flex: 0 0 calc(50% - 1rem);
+            }
+
+            nav .logo img {
+                height: 50px;
+            }
+
+            nav .logo h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 🌿 ENHANCED NAVBAR - FULL WIDTH -->
+    <nav>
+        <div class="logo">
+            <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo" />
+            <h2>Elvandia School</h2>
+        </div>
+
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <ul id="menu">
+            <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{% url 'about_us' %}"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="{% url 'academics' %}"><i class="fas fa-graduation-cap"></i> Academics</a></li>
+            <li><a href="{% url 'contact' %}"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="wrap">
+        <div class="form-header">
+            <img src="{% static 'img/elvandia_logo.png' %}" alt="Elvandia School Logo">
+            <h1>Admission Application</h1>
+            <p class="note">Complete the form carefully to apply for admission. After submission, download and print the confirmation PDF for school records.</p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <div class="step-circle active">1</div>
+                <div class="step-label">Student Info</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">2</div>
+                <div class="step-label">Parent Details</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Emergency Contacts</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle">4</div>
+                <div class="step-label">Review & Submit</div>
+            </div>
+        </div>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {% if message.tags == 'success' %}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        {% elif message.tags == 'error' %}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        {% else %}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                        {% endif %}
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <!-- Candidate -->
+            <fieldset>
+                <legend>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Candidate Details
+                </legend>
+                <div class="form-grid">
+                    {{ candidate_form.as_p }}
+                </div>
+            </fieldset>
+
+            <!-- Father -->
+            <fieldset>
+                <legend>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Father's Details
+                </legend>
+                <div class="form-grid">
+                    {{ father_form.as_p }}
+                </div>
+            </fieldset>
+
+            <!-- Mother -->
+            <fieldset>
+                <legend>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Mother's Details
+                </legend>
+                <div class="form-grid">
+                    {{ mother_form.as_p }}
+                </div>
+            </fieldset>
+
+            <!-- Guardian -->
+            <fieldset>
+                <legend>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    Guardian Details (if applicable)
+                </legend>
+                <div class="form-grid">
+                    {{ guardian_form.as_p }}
+                </div>
+            </fieldset>
+
+            <!-- Emergency contacts -->
+            <fieldset>
+                <legend>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.5 1h-8C6.12 1 5 2.12 5 3.5v17C5 21.88 6.12 23 7.5 23h8c1.38 0 2.5-1.12 2.5-2.5v-17C18 2.12 16.88 1 15.5 1zm-4 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5-4H7V4h9v14z"/>
+                    </svg>
+                    Emergency Contacts
+                </legend>
+                <div class="form-grid">
+                    {{ e1_form.as_p }}
+                    {{ e2_form.as_p }}
+                    {{ e3_form.as_p }}
+                </div>
+            </fieldset>
+
+            <!-- Buttons -->
+            <div class="btns">
+                <button type="submit" class="btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Submit Application
+                </button>
+                <a href="{% static 'pdf/admission.pdf' %}" class="pdf-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    Download PDF Form
+                </a>
+                <a href="{% url 'home' %}" class="btn secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Enhanced Mobile Menu Toggle
+        const toggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+        
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menu.contains(e.target) && !toggle.contains(e.target)) {
+                menu.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        });
+
+        // Add form field enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add focus classes to form fields
+            const formInputs = document.querySelectorAll('input, textarea, select');
+            
+            formInputs.forEach(input => {
+                // Add focus effects
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (this.value === '') {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+                
+                // Check for existing values on page load
+                if (input.value !== '') {
+                    input.parentElement.classList.add('focused');
+                }
+            });
+            
+            // Simple form validation feedback
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function() {
+                // Add loading state to submit button
+                const submitBtn = document.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4V2A10 10 0 0 0 2 12h2a8 8 0 0 1 8-8z"/></svg> Processing...';
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>
