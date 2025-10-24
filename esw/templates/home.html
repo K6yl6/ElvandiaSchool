@@ -191,21 +191,22 @@
 
     @media (max-width: 900px) {
       nav ul {
-        display: none;
-        flex-direction: column;
-        gap: 1.5rem;
-        position: absolute;
-        top: 100%;
-        right: 5%;
-        background: var(--pure-white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow-medium);
-        padding: 2rem;
-        width: 280px;
-        transform: translateY(10px);
-        opacity: 0;
-        animation: fadeInDown 0.4s ease forwards;
-      }
+  display: none;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: absolute;
+  top: 100%;
+  right: 5%;
+  background: rgba(255, 255, 255, 0.5);  /* semi-transparent white */
+  backdrop-filter: blur(10px);            /* frosted glass effect */
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-medium);
+  padding: 2rem;
+  width: 280px;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeInDown 0.4s ease forwards;
+}
 
       @keyframes fadeInDown {
         to {
@@ -884,16 +885,16 @@
   </div>
 
   <script>
-  // Enhanced Mobile Menu Toggle
+  document.addEventListener('DOMContentLoaded', function () {
+  // Mobile menu toggle
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('menu');
-  
+
   toggle.addEventListener('click', () => {
     menu.classList.toggle('active');
     toggle.classList.toggle('active');
   });
 
-  // Close menu when clicking outside
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !toggle.contains(e.target)) {
       menu.classList.remove('active');
@@ -901,17 +902,20 @@
     }
   });
 
+  // Hero slider
   const slides = document.querySelectorAll('.slide');
   const slidesContainer = document.querySelector('.slides');
   const dotsContainer = document.querySelector('.dots');
   let currentIndex = 0;
   let slideInterval;
 
+  // Create dots
   slides.forEach((_, i) => {
     const dot = document.createElement('span');
     dot.addEventListener('click', () => goToSlide(i));
     dotsContainer.appendChild(dot);
   });
+
   const dots = dotsContainer.querySelectorAll('span');
   dots[0].classList.add('active');
 
@@ -924,26 +928,37 @@
     slides[index].classList.add('active');
   }
 
-  document.querySelector('.next').addEventListener('click', nextSlide);
-  document.querySelector('.prev').addEventListener('click', prevSlide);
+  // Next / Prev buttons
+  document.querySelector('.next').addEventListener('click', () => goToSlide((currentIndex + 1) % slides.length));
+  document.querySelector('.prev').addEventListener('click', () => goToSlide((currentIndex - 1 + slides.length) % slides.length));
 
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % slides.length;
-    goToSlide(currentIndex);
-  }
-  function prevSlide() {
-    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-    goToSlide(currentIndex);
-  }
-
-  function startAutoSlide() {
-    slideInterval = setInterval(nextSlide, 4000);
-  }
+  // Auto-slide
+  function startAutoSlide() { slideInterval = setInterval(() => goToSlide((currentIndex + 1) % slides.length), 4000); }
   function stopAutoSlide() { clearInterval(slideInterval); }
 
-  document.querySelector('.hero').addEventListener('mouseenter', stopAutoSlide);
-  document.querySelector('.hero').addEventListener('mouseleave', startAutoSlide);
+  const heroSection = document.querySelector('.hero');
+  heroSection.addEventListener('mouseenter', stopAutoSlide);
+  heroSection.addEventListener('mouseleave', startAutoSlide);
   startAutoSlide();
+
+  // --- TOUCH / SWIPE SUPPORT ---
+  let startX = 0;
+  let endX = 0;
+
+  slidesContainer.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, false);
+  slidesContainer.addEventListener('touchmove', (e) => { endX = e.touches[0].clientX; }, false);
+  slidesContainer.addEventListener('touchend', () => {
+    const diff = startX - endX;
+    if (Math.abs(diff) > 50) { // swipe threshold
+      if (diff > 0) { // swipe left
+        goToSlide((currentIndex + 1) % slides.length);
+      } else { // swipe right
+        goToSlide((currentIndex - 1 + slides.length) % slides.length);
+      }
+    }
+  }, false);
+});
+
   </script>
   <footer class="site-footer">
         <div class="footer-container">
@@ -956,7 +971,7 @@
                 <h3 class="address-heading">Address:</h3>
                 <p>Elvandia School , Atasemanso Beposo – Kumasi, Ghana</p>
                 <p>+233 243-221794</p>
-                <p>+233 -980730</p>
+                <p>+233 204-181877</p>
                 <p class="email-link">elvandiaschool2024@gmail.com</p>
                 <div class="contact-divider"></div>
             </div>
@@ -977,7 +992,11 @@
         </div>
 
         <div class="footer-bottom">
-            <p class="copyright">Copyright All Rights Reserved By Elvandia School</p>
+<footer>
+  <p>© 2025 Elvandia School | Little Minds, Great Future</p>
+  <p>Designed by <a href="#" target="_blank">CyberVerx</a></p>
+</footer>
+
             <div class="social-icons">
                 <a href="https://www.facebook.com/share/1FNus2dCYs/?mibextid=LQQJ4d"><i class="fa-brands fa-facebook-f"></i></a>
                 <a href="#"><i class="fa-brands fa-x"></i></a>
